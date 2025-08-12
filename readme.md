@@ -6,6 +6,8 @@ The package provides shared configuration for eslint and prettier. The rules are
 
 Install package from git repository (i.e. `pnpm add https://github.com/mightyaleksey/linter-config.git`).
 
+**Note**: `pnpm` users may need to install additional dependencies: `@eslint/config-helpers`, `eslint`, `prettier`, `prettier-plugin-space-before-function-paren`. Due to unflattened _node_modules_ structure, you may not be able to refer those dependencies from eslint config and may not be able run CLI commands.
+
 1. Create `eslint.config.mjs` with the following content:
 
 ```js

@@ -75,7 +75,6 @@ export default defineConfig([
 
     languageOptions: {
       globals: {
-        $Diff: 'readonly',
         $Exact: 'readonly',
         $Exports: 'readonly',
         $KeyMirror: 'readonly',
@@ -83,9 +82,20 @@ export default defineConfig([
         $NonMaybeType: 'readonly',
         $ReadOnly: 'readonly',
         $ReadOnlyArray: 'readonly',
-        $Rest: 'readonly',
-        $TupleMap: 'readonly',
         $Values: 'readonly',
+        Class: 'readonly',
+        Exclude: 'readonly',
+        Extract: 'readonly',
+        Omit: 'readonly',
+        OmitThisParameter: 'readonly',
+        Parameters: 'readonly',
+        Partial: 'readonly',
+        Pick: 'readonly',
+        Record: 'readonly',
+        Required: 'readonly',
+        ReturnType: 'readonly',
+        StringPrefix: 'readonly',
+        StringSuffix: 'readonly',
         SyntheticAnimationEvent: 'readonly',
         SyntheticCompositionEvent: 'readonly',
         SyntheticDragEvent: 'readonly',
@@ -97,7 +107,8 @@ export default defineConfig([
         SyntheticTouchEvent: 'readonly',
         SyntheticTransitionEvent: 'readonly',
         SyntheticUIEvent: 'readonly',
-        SyntheticWheelEvent: 'readonly'
+        SyntheticWheelEvent: 'readonly',
+        ThisParameterType: 'readonly'
       }
     },
 

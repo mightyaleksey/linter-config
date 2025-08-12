@@ -20,5 +20,8 @@
   "exports": {
     "./eslint": "./eslint.config.mjs",
     "./prettier": "./prettier.config.mjs"
+  },
+  "scripts": {
+    "format": "eslint . --fix && prettier --write ."
   }
 }
