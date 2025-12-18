@@ -15,9 +15,9 @@ export async function fixCode (code) {
     overrideConfig: eslintConfig
   })
 
-  return f.lintText(code)
+  return f.lintText(code)[0]
 }
 
 export async function lintCode (code) {
-  return eslint.lintText(code)
+  return eslint.lintText(code)[0]
 }

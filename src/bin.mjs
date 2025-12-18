@@ -29,41 +29,49 @@ if (positionals.length === 0) {
   process.exit(0)
 }
 
-;(values.fix ? format : lint)().catch(console.error)
+;(async function handleInput () {
+  const command = values.fix ? cmdFormat : cmdLint
+  const counter = { count: 0 }
 
-async function format () {
-  const { fixCode } = await import('./c-lint.mjs')
+  for (const input of positionals) {
+    for await (const file of fs.promises.glob(input, {
+      exclude: excludeFiles
+    })) {
+      const abspath = path.resolve(file)
+      await command(abspath, counter)
+    }
+  }
+})().catch(console.error)
+
+function excludeFiles (file) {
+  return file.includes('node_modules')
+}
+
+async function cmdFormat (abspath, counter) {
   const { formatCode } = await import('./c-format.mjs')
 
-  for (const file of positionals) {
-    const abspath = path.resolve(file)
-    const code = await fs.promises.readFile(abspath, 'utf8')
-    const result = await fixCode(code)
+  const code = await fs.promises.readFile(abspath, 'utf8')
+  const output = await formatCode(code)
 
-    let finalCode = result[0].output != null ? result[0].output : code
-    finalCode = await formatCode(finalCode)
-
-    if (code !== finalCode) {
-      await fs.promises.writeFile(abspath, finalCode, 'utf8')
-    }
+  if (output != null && code !== output) {
+    await fs.promises.writeFile(abspath, output, 'utf8')
+    counter.count++
   }
 }
 
-async function lint () {
+async function cmdLint (abspath, counter) {
   const [{ lintCode }, { printMessage }] = await Promise.all([
     import('./c-lint.mjs'),
     import('./helpers/output.mjs')
   ])
 
-  for (const file of positionals) {
-    const abspath = path.resolve(file)
-    const code = await fs.promises.readFile(abspath, 'utf8')
-    const result = await lintCode(code)
+  const code = await fs.promises.readFile(abspath, 'utf8')
+  const result = await lintCode(code)
 
-    for (const output of result) {
-      for (const msg of output.messages) {
-        printMessage(msg, code)
-      }
+  if (result != null) {
+    for (const msg of result.messages) {
+      printMessage(msg, code)
+      counter.count++
     }
   }
 }
