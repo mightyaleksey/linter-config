@@ -1,10 +1,11 @@
 import prettier from 'prettier'
 
+import { isJavaScript } from './helpers/fs.mjs'
 import * as plugin from './plugins/prettier-standard.mjs'
 
 import assert from 'node:assert'
 
-const prettierConfig = {
+const jsConfig = {
   bracketSpacing: true,
   jsxSingleQuote: true,
   objectWrap: 'collapse',
@@ -17,7 +18,8 @@ const prettierConfig = {
   useTabs: false
 }
 
-export async function formatCode (code) {
+export async function formatCode (code, source) {
   assert(typeof code === 'string')
-  return prettier.format(code, prettierConfig)
+  if (isJavaScript(source)) return prettier.format(code, jsConfig)
+  return prettier.format(code, { filepath: source })
 }

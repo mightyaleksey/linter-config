@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * To test command line interface locally run:
+ * $ npm link
+ */
+
 import { parseArgs } from './helpers/cli.mjs'
 import { findFiles } from './helpers/fs.mjs'
 
@@ -18,7 +23,10 @@ async function formatPositionals () {
   for await (const file of findFiles(positionals)) {
     const abspath = path.resolve(file)
     const code = await readFile(abspath, 'utf8')
-    const output = await formatCode((await sortImports(code)) ?? code)
+    const output = await formatCode(
+      (await sortImports(code, abspath)) ?? code,
+      abspath
+    )
 
     if (typeof output === 'string' && code !== output) {
       await writeFile(abspath, output, 'utf8')

@@ -16,3 +16,7 @@ export async function * findFiles (input) {
     }
   }
 }
+
+export function isJavaScript (file) {
+  return file.endsWith('.js') || file.endsWith('.mjs')
+}

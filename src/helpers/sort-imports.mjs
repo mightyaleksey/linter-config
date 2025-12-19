@@ -3,6 +3,8 @@ import pluginImportSort from 'eslint-plugin-simple-import-sort'
 import { ESLint } from 'eslint'
 import hermesParser from 'hermes-eslint'
 
+import { isJavaScript } from './fs.mjs'
+
 import assert from 'node:assert'
 
 /**
@@ -50,7 +52,8 @@ const eslint = new ESLint({
   overrideConfig: eslintConfig
 })
 
-export async function sortImports (code) {
+export async function sortImports (code, source) {
+  if (!isJavaScript(source)) return null
   assert(typeof code === 'string')
   const output = await eslint.lintText(code)
   return output[0].output
