@@ -1,4 +1,4 @@
-import { assertToHaveProperty } from './assert.mjs'
+import { assertToHaveProperty } from './asserts.mjs'
 
 import assert from 'node:assert'
 

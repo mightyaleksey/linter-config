@@ -13,11 +13,12 @@ const { positionals, values } = parseArgs({
 
 async function formatPositionals () {
   const { formatCode } = await import('./c-format.mjs')
+  const { sortImports } = await import('./helpers/sort-imports.mjs')
 
   for await (const file of findFiles(positionals)) {
     const abspath = path.resolve(file)
     const code = await readFile(abspath, 'utf8')
-    const output = await formatCode(code)
+    const output = await formatCode((await sortImports(code)) ?? code)
 
     if (typeof output === 'string' && code !== output) {
       await writeFile(abspath, output, 'utf8')

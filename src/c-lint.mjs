@@ -2,6 +2,8 @@ import { ESLint } from 'eslint'
 
 import eslintConfig from '../eslint.config.mjs'
 
+import assert from 'node:assert'
+
 const eslint = new ESLint({
   fix: false,
   overrideConfigFile: true,
@@ -9,6 +11,7 @@ const eslint = new ESLint({
 })
 
 export async function* lintCode (code) {
+  assert(typeof code === 'string')
   const output = await eslint.lintText(code)
 
   for (const result of output) {
