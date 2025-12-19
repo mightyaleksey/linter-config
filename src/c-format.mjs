@@ -1,6 +1,8 @@
 import prettier from 'prettier'
 
-import * as plugin from './plugins/p-space-before-function-paren.mjs'
+import * as plugin from './plugins/prettier-space-before-func.mjs'
+
+import assert from 'node:assert'
 
 const prettierConfig = {
   bracketSpacing: true,
@@ -16,5 +18,6 @@ const prettierConfig = {
 }
 
 export async function formatCode (code) {
+  assert(typeof code === 'string')
   return prettier.format(code, prettierConfig)
 }

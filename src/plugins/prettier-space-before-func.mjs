@@ -1,6 +1,27 @@
 import estreePlugin from 'prettier/plugins/estree'
 import flowPlugin from 'prettier/plugins/flow'
 
+function findParentheseGroup (content) {
+  if (Array.isArray(content)) {
+    if (content.includes('(')) {
+      return content
+    }
+
+    for (const elem of content) {
+      const child = findParentheseGroup(elem)
+      if (child != null) {
+        return child
+      }
+    }
+  }
+
+  if (content?.type === 'group') {
+    return findParentheseGroup(content.contents)
+  }
+
+  return null
+}
+
 const estreePrinter = estreePlugin.printers.estree
 
 export const parsers = { ...flowPlugin.parsers }
@@ -30,29 +51,4 @@ export const printers = {
       return estreePrinter.print(path, options, print)
     }
   }
-}
-
-function findParentheseGroup (content) {
-  if (typeof content === 'string') {
-    return null
-  }
-
-  if (Array.isArray(content)) {
-    if (content.includes('(')) {
-      return content
-    }
-
-    for (const elem of content) {
-      const child = findParentheseGroup(elem)
-      if (child != null) {
-        return child
-      }
-    }
-  }
-
-  if (content.type === 'group') {
-    return findParentheseGroup(content.contents)
-  }
-
-  return null
 }
