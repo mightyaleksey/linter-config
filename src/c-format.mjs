@@ -1,6 +1,6 @@
 import prettier from 'prettier'
 
-import * as plugin from './plugins/prettier-space-before-func.mjs'
+import * as plugin from './plugins/prettier-standard.mjs'
 
 import assert from 'node:assert'
 
