@@ -23,6 +23,10 @@
   "exports": {
     "./eslint": "./eslint.config.mjs"
   },
+  "files": [
+    "eslint.config.mjs",
+    "src"
+  ],
   "scripts": {
     "format": "eslint . --fix && prettier --write .",
     "test": "node src/bin.mjs src/lint.mjs"
