@@ -19,8 +19,10 @@ const { positionals, values } = parseArgs({
 async function formatPositionals () {
   const { formatCode } = await import('./c-format.mjs')
   const { sortImports } = await import('./helpers/sort-imports.mjs')
+  const { printFile } = await import('./helpers/print.mjs')
 
   for await (const file of findFiles(positionals)) {
+    const timeStart = process.hrtime()
     const abspath = path.resolve(file)
     const code = await readFile(abspath, 'utf8')
     const output = await formatCode(
@@ -31,26 +33,37 @@ async function formatPositionals () {
     if (typeof output === 'string' && code !== output) {
       await writeFile(abspath, output, 'utf8')
     }
+
+    const timeEnd = process.hrtime(timeStart)
+    printFile(file, timeEnd)
   }
 }
 
 async function lintPositionals () {
   const { lintCode } = await import('./c-lint.mjs')
-  const { printMessage } = await import('./helpers/print.mjs')
+  const { printFile, printTable } = await import('./helpers/print.mjs')
+
+  const limit = 5
+  let counter = 0
 
   for await (const file of findFiles(positionals)) {
+    const timeStart = process.hrtime()
+    const messages = []
     const abspath = path.resolve(file)
     const code = await readFile(abspath, 'utf8')
-    let shown = false
 
-    for await (const message of lintCode(code)) {
-      if (!shown) {
-        shown = true
-        console.log(file)
-      }
+    for await (const msg of lintCode(code)) {
+      messages.push([String(msg.line), String(msg.column), msg.message])
 
-      printMessage(message)
+      counter++
+      if (counter === limit) break
     }
+
+    const timeEnd = process.hrtime(timeStart)
+    printFile(file, timeEnd)
+    printTable(messages)
+
+    if (counter === limit) break
   }
 }
 
