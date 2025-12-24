@@ -14,6 +14,8 @@ import assert from 'node:assert'
 const eslintConfig = {
   languageOptions: { parser: hermesParser },
 
+  linterOptions: { reportUnusedDisableDirectives: 'off' },
+
   name: 'sort-imports',
 
   plugins: { 'simple-import-sort': pluginImportSort },
