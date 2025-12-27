@@ -30,18 +30,19 @@ async function formatPositionals () {
       abspath
     )
 
-    if (typeof output === 'string' && code !== output) {
+    const wasChanged = typeof output === 'string' && code !== output
+    if (wasChanged) {
       await writeFile(abspath, output, 'utf8')
     }
 
     const timeEnd = process.hrtime(timeStart)
-    printFile(file, timeEnd)
+    printFile(file, timeEnd, wasChanged ? 0 : -1)
   }
 }
 
 async function lintPositionals () {
   const { lintCode } = await import('./c-lint.mjs')
-  const { printFile, printTable } = await import('./helpers/print.mjs')
+  const { printFile, printErrors } = await import('./helpers/print.mjs')
 
   const limit = 5
   let counter = 0
@@ -60,8 +61,8 @@ async function lintPositionals () {
     }
 
     const timeEnd = process.hrtime(timeStart)
-    printFile(file, timeEnd)
-    printTable(messages)
+    printFile(file, timeEnd, messages.length > 0 ? 1 : 0)
+    printErrors(messages)
 
     if (counter === limit) break
   }
