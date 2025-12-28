@@ -35,7 +35,7 @@ export default defineConfig([
 
 ```json
 {
-  "editor.defaultFormatter": "undefined_publisher.linter-config",
+  "editor.defaultFormatter": "mightyaleksey.linter-config",
   "editor.formatOnSave": true
 }
 ```

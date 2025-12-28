@@ -1,36 +1,19 @@
 {
   "name": "linter-config",
+  "displayName": "Linter Config",
   "version": "0.1.0",
+  "publisher": "mightyaleksey",
   "main": "./dist/linter-config.mjs",
   "dependencies": {
     "eslint": "9.39.2",
     "hermes-eslint": "0.33.0",
     "prettier": "3.7.4"
   },
-  "contributes": {
-    "commands": [
-      {
-        "command": "linter-config.format",
-        "title": "Linter Config: Format document"
-      }
-    ],
-    "languages": [
-      {
-        "id": "javascript",
-        "extensions": [
-          ".cjs",
-          ".js",
-          ".mjs"
-        ]
-      },
-      {
-        "id": "json",
-        "extensions": [
-          ".json"
-        ]
-      }
-    ]
-  },
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:json"
+  ],
+  "contributes": {},
   "engines": {
     "vscode": "^1.107.0"
   }
