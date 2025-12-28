@@ -8,38 +8,35 @@ Install package from git repository (i.e. `pnpm add https://github.com/mightyale
 
 **Note**: `pnpm` users may need to install additional dependencies: `@eslint/config-helpers`, `eslint`, `prettier`, `prettier-plugin-space-before-function-paren`. Due to unflattened _node_modules_ structure, you may not be able to refer those dependencies from eslint config and may not be able run CLI commands.
 
-1. Create `eslint.config.mjs` with the following content:
+1. Add script to format files:
+
+```sh
+linter-config -f 'src/**/*.mjs'
+```
+
+2. Create `eslint.config.mjs` with the following content:
 
 ```js
-import { defineConfig, globalIgnores } from '@eslint/config-helpers'
-import linterConfig from 'linter-config/eslint'
+import { defineConfig, globalIgnores } from "@eslint/config-helpers";
+import linterConfig from "linter-config/eslint";
 
 export default defineConfig([
-  globalIgnores(['flow-typed/', 'node_modules/', '**/public/']),
-  { extends: [linterConfig] }
-])
+  globalIgnores(["flow-typed/", "node_modules/", "**/public/"]),
+  { extends: [linterConfig] },
+]);
 ```
 
-2. Reference prettier config in your `package.json`:
+## Create a local VSCode extension
+
+1. Clone repository and install dependencies.
+2. Open "vscode-extension" and install dependencies too.
+3. Run `build` script. This one will build and install extension.
+4. Create a shared Visual Studio Code settings, i.e. update `.vscode/settings.json` with the following:
 
 ```json
 {
-  "name": "my-cool-library",
-  "version": "1.0.0",
-  "prettier": "linter-config/prettier"
-}
-```
-
-3. (optional) To create shared Visual Studio Code settings, update `.vscode/settings.json` with the following:
-
-```json
-{
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.detectIndentation": false,
-  "editor.formatOnSave": true,
-  "editor.insertSpaces": true,
-  "editor.tabSize": 2
+  "editor.defaultFormatter": "undefined_publisher.linter-config",
+  "editor.formatOnSave": true
 }
 ```
 
