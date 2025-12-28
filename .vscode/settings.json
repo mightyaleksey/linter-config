@@ -1,12 +1,4 @@
 {
-  "editor.defaultFormatter": null,
-  "editor.formatOnSave": false,
-  "emeraldwalk.runonsave": {
-    "commands": [
-      {
-        "match": ".*\\.mjs$",
-        "cmd": "linter-config --fix ${file}"
-      }
-    ]
-  }
+  "editor.defaultFormatter": "undefined_publisher.linter-config",
+  "editor.formatOnSave": true
 }

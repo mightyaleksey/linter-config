@@ -18,6 +18,7 @@ const { positionals, values } = parseArgs({
 
 async function formatPositionals () {
   const { formatCode } = await import('./c-format.mjs')
+
   const { sortImports } = await import('./helpers/sort-imports.mjs')
   const { printFile } = await import('./helpers/print.mjs')
 
