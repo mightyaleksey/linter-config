@@ -17,6 +17,8 @@ export async function * findFiles (input) {
   }
 }
 
+const jsExtensions = ['.cjs', '.js', '.jsx', '.mjs']
+
 export function isJavaScript (file) {
-  return file.endsWith('.js') || file.endsWith('.mjs')
+  return jsExtensions.some((ext) => file.endsWith(ext))
 }
