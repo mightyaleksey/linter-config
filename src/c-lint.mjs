@@ -10,7 +10,7 @@ const eslint = new ESLint({
   overrideConfig: eslintConfig
 })
 
-export async function * lintCode (code) {
+export async function* lintCode (code) {
   assert(typeof code === 'string')
   const output = await eslint.lintText(code)
 

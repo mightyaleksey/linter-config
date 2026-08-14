@@ -7,10 +7,10 @@ const globOptions = {
   }
 }
 
-export async function * findFiles (input) {
+export async function* findFiles (input) {
   for (const param of input) {
     if (param.includes('*')) {
-      yield * glob(param, globOptions)
+      yield* glob(param, globOptions)
     } else {
       yield path.normalize(param)
     }

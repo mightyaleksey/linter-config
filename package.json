@@ -2,38 +2,40 @@
   "name": "linter-config",
   "version": "1.0.0",
   "dependencies": {
-    "@eslint/config-helpers": "0.5.0",
-    "eslint": "9.39.2",
+    "@eslint/config-helpers": "0.7.0",
+    "eslint": "10.8.1",
     "eslint-config-standard": "17.1.0",
     "eslint-config-standard-jsx": "11.0.0",
     "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-n": "17.23.1",
-    "eslint-plugin-prettier": "5.5.4",
-    "eslint-plugin-promise": "7.2.1",
+    "eslint-plugin-n": "18.3.0",
+    "eslint-plugin-prettier": "5.5.6",
+    "eslint-plugin-promise": "7.3.0",
     "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-simple-import-sort": "12.1.1",
-    "globals": "16.5.0",
-    "hermes-eslint": "0.33.0",
-    "prettier": "3.7.4"
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "globals": "17.11.0",
+    "hermes-eslint": "0.37.0",
+    "prettier": "3.9.6"
   },
   "devDependencies": {
-    "@vscode/vsce": "3.7.1",
-    "vite": "7.3.0"
+    "@vscode/vsce": "3.9.2",
+    "vite": "8.2.1"
   },
   "bin": "./src/bin.mjs",
   "engine": {
     "node": ">=22.0.0"
   },
   "exports": {
-    "./eslint": "./eslint.config.mjs"
+    "./eslint": "./eslint.config.mjs",
+    "./prettier": "./prettier.config.mjs"
   },
   "files": [
     "eslint.config.mjs",
+    "prettier.config.mjs",
     "src"
   ],
   "scripts": {
     "build": "vite build --config vscode-extension/vite.config.mjs --emptyOutDir && cd ./vscode-extension && pnpm exec vsce package --allow-missing-repository && code --install-extension linter-config-0.1.0.vsix",
     "format": "node src/bin.mjs -f '**/*.json' 'src/**/*.mjs'",
-    "test": "node src/bin.mjs 'src/**/*.mjs'"
+    "test": "node src/bin.mjs 'src/**/*.mjs' 'tests/*.mjs'"
   }
 }

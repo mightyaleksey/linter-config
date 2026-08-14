@@ -91,6 +91,7 @@ export default defineConfig([
         Parameters: 'readonly',
         Partial: 'readonly',
         Pick: 'readonly',
+        ReadonlyArray: 'readonly',
         Record: 'readonly',
         Required: 'readonly',
         ReturnType: 'readonly',

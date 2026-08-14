@@ -1,4 +1,9 @@
 {
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
   "editor.defaultFormatter": "mightyaleksey.linter-config",
-  "editor.formatOnSave": true
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "javascript.validate.enable": false
 }

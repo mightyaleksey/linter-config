@@ -5,9 +5,9 @@
   "publisher": "mightyaleksey",
   "main": "./dist/linter-config.mjs",
   "dependencies": {
-    "eslint": "9.39.2",
-    "hermes-eslint": "0.33.0",
-    "prettier": "3.7.4"
+    "eslint": "10.8.1",
+    "hermes-eslint": "0.37.0",
+    "prettier": "3.9.6"
   },
   "activationEvents": [
     "onLanguage:javascript",

@@ -1,18 +1,30 @@
 import estreePlugin from 'prettier/plugins/estree'
 import flowPlugin from 'prettier/plugins/flow'
 
-/**
- * Only latest plugin is applied for the same language / parser.
- * Thus, we have to combine all the fixes together here.
- */
+const estreePrinter = estreePlugin.printers.estree
 
-function findParentheseGroup (content) {
-  if (Array.isArray(content)) {
-    if (content.includes('(')) {
-      return content
+function findFunctionName(doc) {
+  if (doc[0] === '(' && Array.isArray(doc[1])) {
+    return findFunctionName(doc[1])
+  }
+
+  if (
+    doc.some((elem) => typeof elem === 'string' && elem.startsWith('function'))
+  ) {
+    const nameIndex = doc.findIndex((elem) => Array.isArray(elem))
+    if (nameIndex > -1) return doc[nameIndex]
+  }
+
+  return null
+}
+
+function findParentheseGroup(doc) {
+  if (Array.isArray(doc)) {
+    if (doc.includes('(')) {
+      return doc
     }
 
-    for (const elem of content) {
+    for (const elem of doc) {
       const child = findParentheseGroup(elem)
       if (child != null) {
         return child
@@ -20,14 +32,12 @@ function findParentheseGroup (content) {
     }
   }
 
-  if (content?.type === 'group') {
-    return findParentheseGroup(content.contents)
+  if (doc?.type === 'group') {
+    return findParentheseGroup(doc.contents)
   }
 
   return null
 }
-
-const estreePrinter = estreePlugin.printers.estree
 
 export const parsers = { ...flowPlugin.parsers }
 
@@ -35,39 +45,33 @@ export const printers = {
   estree: {
     ...estreePrinter,
 
-    print (path, options, print) {
+    print(path, options, print) {
       const node = path.getValue()
+      const doc = estreePrinter.print(path, options, print)
 
       if (
         node.type === 'FunctionDeclaration' ||
         node.type === 'FunctionExpression'
       ) {
-        const parentNode = path.getParentNode()
-        const doc = estreePrinter.print(path, options, print)
-
-        // fix generator function spacing
+        // console.log(JSON.stringify(doc))
         if (typeof doc[2] === 'string' && doc[2] === 'function* ') {
           doc[2] = 'function * '
         }
 
-        const group = findParentheseGroup(
-          parentNode.type === 'CallExpression' && Array.isArray(doc[2])
-            ? doc[2]
-            : doc
-        )
-        // fix space before function parenthese
-        if (group != null) group[1] = ' ('
+        // if (nameGroup != null) {
+        //   nameGroup[0] += ' '
+        // }
 
-        return doc
+        const nameGroup = findFunctionName(doc)
+        const group = findParentheseGroup(doc)
+        if (group != null && group !== doc) {
+          group[1] = ' ' + group[1]
+        } else if (nameGroup != null) {
+          nameGroup[0] += ' '
+        }
       }
 
-      if (node.type === 'YieldExpression') {
-        const doc = estreePrinter.print(path, options, print)
-        if (doc[0] === 'yield*') doc[0] = 'yield *'
-        return doc
-      }
-
-      return estreePrinter.print(path, options, print)
+      return doc
     }
   }
 }

@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 pnpm-lock.yaml
+pnpm-workspace.yaml
 vscode-extension/*.vsix
 vscode-extension/dist
 vscode-extension/package-lock.json
