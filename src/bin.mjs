@@ -12,6 +12,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const { positionals, values } = parseArgs({
+  all: { type: 'boolean', short: 'a' },
   fix: { type: 'boolean', short: 'f' },
   help: { type: 'boolean', short: 'h' }
 })
@@ -45,7 +46,7 @@ async function lintPositionals () {
   const { lintCode } = await import('./c-lint.mjs')
   const { printFile, printErrors } = await import('./helpers/print.mjs')
 
-  const limit = 5
+  const limit = values.all ? Number.POSITIVE_INFINITY : 5
   let counter = 0
 
   for await (const file of findFiles(positionals)) {

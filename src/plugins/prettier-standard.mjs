@@ -3,7 +3,7 @@ import flowPlugin from 'prettier/plugins/flow'
 
 const estreePrinter = estreePlugin.printers.estree
 
-function findFunctionName(doc) {
+function findFunctionName (doc) {
   if (doc[0] === '(' && Array.isArray(doc[1])) {
     return findFunctionName(doc[1])
   }
@@ -18,7 +18,7 @@ function findFunctionName(doc) {
   return null
 }
 
-function findParentheseGroup(doc) {
+function findParentheseGroup (doc) {
   if (Array.isArray(doc)) {
     if (doc.includes('(')) {
       return doc
@@ -45,7 +45,7 @@ export const printers = {
   estree: {
     ...estreePrinter,
 
-    print(path, options, print) {
+    print (path, options, print) {
       const node = path.getValue()
       const doc = estreePrinter.print(path, options, print)
 

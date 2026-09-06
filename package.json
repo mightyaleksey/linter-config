@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "vite build --config vscode-extension/vite.config.mjs --emptyOutDir && cd ./vscode-extension && pnpm exec vsce package --allow-missing-repository && code --install-extension linter-config-0.1.0.vsix",
-    "format": "node src/bin.mjs -f '**/*.json' 'src/**/*.mjs'",
+    "format": "node src/bin.mjs -a -f '**/*.json' 'src/**/*.mjs'",
     "test": "node src/bin.mjs 'src/**/*.mjs' 'tests/*.mjs'"
   }
 }
